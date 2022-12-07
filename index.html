@@ -63,19 +63,19 @@
         // POST (Create)
         const addData = async () => {
             await axios.post(MY_SERVER, { name: sname.value, city: scity.value }).then((res) => console.log(res.data))
+        location.reload()
         }
         // DELETE (Delete)
         const delData = async (id) => {
             await axios.delete(MY_SERVER + id).then((res) => console.log(res.data))
-            // DELETE button (Delete)
+        location.reload()
         }
-        // const delDatabut = () => {
-        //     axios.delete(MY_SERVER + `${sid.value}`).then((res) => console.log(res.data))
-        // }
+        
         // PUT (Update)
         const updData = async (id) => {
             await axios.put(MY_SERVER + id, { name: sname.value, city: scity.value }).then((res) => console.log(res.data))
             loadData()
+        location.reload()    
         }
     </script>
 
