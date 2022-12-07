@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: rgb(214, 214, 214);
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+        }
+    </style>
+
+</head>
+
+<body>
+    <hr>
+
+    Name <input id="sname">
+    <br><br>
+
+    City <input id="scity">
+    <br><br>
+
+
+    <button onclick="addData()"> Add Data</button>
+    <br><br><br>
+    <hr>
+    <button onclick="loadData()"> Load Data</button>
+    <br><br><br>
+    <hr>
+
+    <div id=display></div>
+
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+
+    <script>
+        const MY_SERVER = "http://127.0.0.1:5000/students/"
+
+        // GET (Read)
+        const loadData = async () => {
+            const res = await axios.get(MY_SERVER) //get data from server
+            display.innerHTML = res.data.map(stud =>
+                `
+            <h1>
+            <button onclick="delData(${stud.id})">X</button>
+            <br>
+            <button onclick="updData(${stud.id})">update</button>
+            <br> 
+                ID: ${stud.id}
+            <br>
+                name: ${stud.name}
+            <br>
+                city: ${stud.city}
+            </h1>
+            `).join('<hr>') // build display
+            console.log(res.data)
+        }
+        loadData()
+
+        // POST (Create)
+        const addData = async () => {
+            await axios.post(MY_SERVER, { name: sname.value, city: scity.value }).then((res) => console.log(res.data))
+        }
+        // DELETE (Delete)
+        const delData = async (id) => {
+            await axios.delete(MY_SERVER + id).then((res) => console.log(res.data))
+            // DELETE button (Delete)
+        }
+        // const delDatabut = () => {
+        //     axios.delete(MY_SERVER + `${sid.value}`).then((res) => console.log(res.data))
+        // }
+        // PUT (Update)
+        const updData = async (id) => {
+            await axios.put(MY_SERVER + id, { name: sname.value, city: scity.value }).then((res) => console.log(res.data))
+            loadData()
+        }
+    </script>
+
+
+    <hr>
+    <br><br>
+    <h1>IT'S WORKING</h1>
+    <img src="/Front/hooray-we-did-it.gif" alt="funny GIF" width="15%">
+
+
+</body>
+
+</html>
